@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import  Login  from "./components/login.component.js";
+import  User  from "./components/user.component.js";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import UserUpdate from './components/user-update.component';
 
-function App() {
+class App extends React.Component {
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <Router>
+      <Switch>
+          <Route path="/"  exact render={props=><Login {...props} />} />
+          <Route path="/profile" render={props=><User {...props} />} />
+          <Route path="/update" render={props=><UserUpdate {...props} update={true}/>} />
+          <Route path="/register" render={props=><UserUpdate {...props} update={false} />} />
+        </Switch>
+      </Router>
+  )};
 }
 
 export default App;

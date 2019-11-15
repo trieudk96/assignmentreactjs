@@ -95,7 +95,10 @@ label.label-login{
   color: darkmagenta;
 }
 .login-btn{
-  margin: 15px 45% !important;
+  margin: 15px 25% !important; display: inline;
+}
+.register-btn{
+  margin: 15px 15% 15px 15px !important; display: inline;
 }
 #error{
   text-align: center;

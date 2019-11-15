@@ -9,7 +9,6 @@ import AppConfig from '../Constant';
 class User extends React.Component {
   
   constructor(props){
-    debugger
     super(props); 
     const token = new Cookies().get("token");
     if(!token || !this.props.location.state || !this.props.location.state.userId){
@@ -37,7 +36,6 @@ class User extends React.Component {
 
 
   render(){
-    console.log(this.state)
     if(!this.state || !this.state.token){
       return (<Redirect to={{ pathname: `/`, }} />);
     }
@@ -77,7 +75,7 @@ class User extends React.Component {
             <label><strong>MobileNumber:</strong></label>
           </Grid>
           <Grid item xs={6}>
-            <label><strong>{this.state.user.mobieNumber}</strong></label>
+            <label><strong>{this.state.user.mobileNumber}</strong></label>
           </Grid>
         </Grid>
 

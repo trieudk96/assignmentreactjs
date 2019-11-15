@@ -1,9 +1,8 @@
 import React from 'react';
-import { Input,Button  } from '@material-ui/core';
+import { Input,Button,Grid  } from '@material-ui/core';
 import Appconfig from "../Constant";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-
 import {
   Redirect
 } from "react-router-dom";
@@ -63,7 +62,15 @@ login = ()=>{
             <br/>
             <Input className="app-input" placeholder="Password"  onChange={this.change} name="password" type="password"/>
             <br/>
+         
+            <Grid container item xs={8} spacing={3} style={{paddingLeft:'27%'}}>
+            <Grid item xs={6}>
             <Button variant="contained" color="primary" className="login-btn" disabled={!this.state.valid} onClick={this.login}>Login</Button>
+            </Grid>
+            <Grid item xs={6}>
+            <Button variant="contained" color="primary" className="register-btn"  onClick={()=>this.props.history.push("/register")}>Register</Button>
+            </Grid>
+          </Grid>
             <span id="error"></span>
       </div>
       <div className="container-login"> 

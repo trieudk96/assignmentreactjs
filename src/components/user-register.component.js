@@ -1,20 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import {CssBaseline,Typography,Container,Grid,Button,Input,Radio } from '@material-ui/core';
-import { Redirect} from "react-router-dom";
-import Cookies from 'universal-cookie';
 import AppConfig from '../Constant';
-class UserUpdate extends React.Component {
-  isUpdate;
+class UserRegister extends React.Component {
   constructor(props){
     super(props); 
-    const token = new Cookies().get("token");
-    if(!token || !this.props.location.state || !this.props.location.state.userId){
-      this.props.history.push("/");
-    }else{
-      this.isUpdate = this.props.location.state.update;
       this.state={
-        token,
         user:{
           email:"",
           dob: "",
@@ -25,15 +16,6 @@ class UserUpdate extends React.Component {
           name: "",
           password: ""
         }, 
-      }
-      axios.get(`${AppConfig.apiUrl}/user/${this.props.location.state.userId}`,{headers:{"Authorization":`Bearer ${token}`}})
-      .then(response => {
-        this.setState({
-          user: response.data 
-        });
-      }).catch(e=>{
-        this.props.history.push("/");
-      });
     }
   }
     change = (event)=> {
@@ -41,18 +23,16 @@ class UserUpdate extends React.Component {
       const name = taget.name;
       const val = taget.type === 'checkbox' ? taget.checked : taget.value;
     this.setState({
-      token:this.state.token,
       user:{...this.state.user,[name]:val}
       
     });
     
   }
-  update =()=>{
+  register =()=>{
     debugger
-    axios.put(`${AppConfig.apiUrl}/user/${this.state.user.id}`,{...this.state.user},{headers:{"Authorization":`Bearer ${new Cookies().get("token")}`}}).then(res=>{
+    axios.post(`${AppConfig.apiUrl}/user`,{...this.state.user}).then(res=>{
       if(res.data.susscess){
-        debugger
-        this.props.history.push("/profile",{userId:this.state.user.id});
+        this.props.history.push("/");
       }
     }).catch(e=>{
       console.log(e)
@@ -61,10 +41,6 @@ class UserUpdate extends React.Component {
 
 
   render(){
-    console.log(this.state)
-    if(!this.state || !this.state.token){
-      return (<Redirect to={{ pathname: `/`, }} />);
-    }
     return (
       <React.Fragment>
         <CssBaseline />
@@ -72,7 +48,7 @@ class UserUpdate extends React.Component {
           <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '80vh', paddingTop:'10vh',paddingLeft:'43vh'}} >
           <Grid container item xs={8} spacing={3}>
             <Grid item xs={12}>
-            <h1 className="label-login">Profile</h1>
+            <h1 className="label-login">Register</h1>
             </Grid>
           </Grid>
 
@@ -81,7 +57,7 @@ class UserUpdate extends React.Component {
               <label><strong>Name:</strong></label>
             </Grid>
             <Grid item xs={6}>
-            <Input className="app-input1" placeholder="Name" onChange={this.change} name="name"  value={this.state.user.name} />
+            <Input className="app-input1" placeholder="Name" onChange={this.change} name="name"  />
             </Grid>
           </Grid>
 
@@ -91,7 +67,17 @@ class UserUpdate extends React.Component {
               <label><strong>Email:</strong></label>
             </Grid>
             <Grid item xs={6}>
-            <Input className="app-input1" placeholder="Email" onChange={this.change} name="email" value={this.state.user.email} disabled />
+            <Input className="app-input1" placeholder="Email" onChange={this.change} name="email"  />
+            </Grid>
+          </Grid>
+
+
+          <Grid container item xs={8} spacing={3}>
+            <Grid item xs={6}>
+              <label><strong>Password:</strong></label>
+            </Grid>
+            <Grid item xs={6}>
+            <Input className="app-input1" placeholder="Password"  onChange={this.change} name="password" type="password"  />
             </Grid>
           </Grid>
 
@@ -101,7 +87,7 @@ class UserUpdate extends React.Component {
               <label><strong>MobileNumber:</strong></label>
             </Grid>
             <Grid item xs={6}>
-            <Input className="app-input1" placeholder="Mobile number" onChange={this.change} name="mobileNumber" value={this.state.user.mobileNumber} pattern="[0-9]*"  />
+            <Input className="app-input1" placeholder="Mobile number" onChange={this.change} name="mobileNumber" pattern="[0-9]*"  />
             </Grid>
           </Grid>
 
@@ -153,7 +139,7 @@ class UserUpdate extends React.Component {
           </Grid>
           <Grid container item xs={8} spacing={3}>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" className="login-btn"  onClick={this.update}>Update</Button>
+              <Button variant="contained" color="primary" className="login-btn"  onClick={this.register}>Register</Button>
             </Grid>
           </Grid>
           </Typography>
@@ -165,4 +151,4 @@ class UserUpdate extends React.Component {
   }
    
   
-  export default UserUpdate;
+  export default UserRegister;
